@@ -12,6 +12,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - API_URL=${API_URL}
     depends_on:
       - backend
 
@@ -26,7 +27,9 @@ services:
       - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
       - MONGODB_URI=${MONGODB_URI}
+      - API_URL=${API_URL}
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - mongodb
@@ -37,7 +40,7 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-      - ./bite-swipe-backend/seed/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./bite-swipe-backend/src/seed/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     environment:
       MONGO_INITDB_DATABASE: bite_swipe
     # healthcheck:

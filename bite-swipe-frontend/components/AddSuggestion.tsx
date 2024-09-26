@@ -56,8 +56,8 @@ function AddSuggestionTab({ onAdd, onNavigateToVote }: AddSuggestionProps) {
   }, []);
 
   return (
-    <>
-      {!feedBackDialog && (
+    <div className="max-w-screen-sm mx-auto">
+      {feedBackDialog && (
         <div className="border border-teal-300 bg-teal-100 p-4 rounded-md my-8">
           <p>{feedBackDialog}</p>
           <ButtonLayout>
@@ -115,7 +115,7 @@ function AddSuggestionTab({ onAdd, onNavigateToVote }: AddSuggestionProps) {
           </CardFooter>
         </Card>
       )}
-    </>
+    </div>
   );
 }
 
