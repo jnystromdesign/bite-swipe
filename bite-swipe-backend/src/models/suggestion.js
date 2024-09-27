@@ -17,7 +17,7 @@ module.exports = mongoose => {
   });
 
   // Apply the plugin to the schema
-  SuggestionSchema.plugin(AutoIncrement, { inc_field: 'sequenceIndex' });
+  SuggestionSchema.plugin(AutoIncrement, { inc_field: 'sequenceIndex', start_seq: 3 }); // Start at 3 because we have 2 seeded suggestions
 
   // Function to create the model
   // const createSuggestionModel = (connection) => {
