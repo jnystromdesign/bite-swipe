@@ -69,7 +69,13 @@ function AddSuggestionTab({ onAdd, onNavigateToVote }: AddSuggestionProps) {
             >
               Go vote
             </Button>
-            <Button variant="default" onClick={resetForm}>
+            <Button
+              variant="default"
+              onClick={() => {
+                resetForm();
+                setFeedBackDialog(null);
+              }}
+            >
               Add a new suggestion
             </Button>
           </ButtonLayout>
