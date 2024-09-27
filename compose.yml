@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
@@ -29,6 +29,7 @@ services:
       - NODE_ENV=development
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
       - MONGODB_URI=${MONGODB_URI}
+      - PORT=${PORT}
       - API_URL=${API_URL}
       - CHOKIDAR_USEPOLLING=true
     depends_on:
@@ -43,13 +44,6 @@ services:
       - ./bite-swipe-backend/src/seed/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     environment:
       MONGO_INITDB_DATABASE: bite_swipe
-    # healthcheck:
-    #   test: mongosh --eval "db.adminCommand('ping')"
-    #   interval: 10s
-    #   timeout: 10s
-    #   retries: 5
-    #   start_period: 40s
-
 
 volumes:
   mongodb_data:
