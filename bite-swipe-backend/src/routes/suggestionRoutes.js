@@ -1,12 +1,30 @@
+/// <reference path="../types/index.js" />
+
 const express = require('express');
 const { uploadFileFromFormField } = require('../utils/fileUpload');
 const { validateSuggestion } = require('../validation/suggestionSchema');
 
-
-module.exports = container => {
+/**
+ * Creates and configures the suggestion routes.
+ * 
+ * @param {ServiceRegistry} serviceRegistry - The service registry instance.
+ * @returns {ExpressRouter} The configured Express router for suggestion routes.
+ */
+module.exports = serviceRegistry => {
     const router = express.Router();
-    const suggestionService = container.get('suggestionService');
+    /** @type {SuggestionService} */
+    const suggestionService = serviceRegistry.get('suggestionService');
 
+    /**
+     * GET /suggestions
+     * Retrieves all suggestions.
+     * 
+     * @async
+     * @function
+     * @name getAllSuggestions
+     * @returns {Promise<Suggestion[]>} A promise that resolves to an array of suggestion objects.
+     * @throws {Error} If there's an error fetching the suggestions.
+     */
     router.get('/', async (req, res, next) => {
         try {
             const suggestions = await suggestionService.getAllSuggestions();
@@ -16,6 +34,18 @@ module.exports = container => {
         }
     });
 
+    /**
+     * POST /suggestions
+     * Creates a new suggestion.
+     * 
+     * @async
+     * @function
+     * @name createSuggestion
+     * @param {Object} req.validatedData - The validated suggestion data.
+     * @param {Object} req.file - The uploaded file information.
+     * @returns {Promise<Object>} A promise that resolves to the created suggestion object.
+     * @throws {Error} If there's an error creating the suggestion.
+     */
     router.post('/',
         uploadFileFromFormField('file'),
         validateSuggestion,

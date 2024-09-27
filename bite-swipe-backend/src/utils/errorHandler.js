@@ -1,5 +1,17 @@
 const { ZodError } = require('zod');
+const { ErrorResponse, ValidationErrorDetail } = require('../types');
 
+/**
+ * Global error handler middleware for Express applications.
+ * 
+ * @param {Error} err - The error object caught by Express.
+ * @param {import('express').Request} req - The Express request object.
+ * @param {import('express').Response} res - The Express response object.
+ * @param {import('express').NextFunction} next - The Express next middleware function.
+ * @returns {void}
+ * 
+ * @throws {ErrorResponse} Sends an appropriate error response based on the error type.
+ */
 const errorHandler = (err, req, res, next) => {
   console.error(err);
 

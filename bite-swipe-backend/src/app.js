@@ -1,5 +1,5 @@
 const express = require('express');
-const container = require('./core/ioc');
+const serviceRegistry = require('./core/ioc');
 const suggestionRoutes = require('./routes/suggestionRoutes');
 const voteRoutes = require('./routes/voteRoutes');
 const SuggestionService = require('./services/suggestionService');
@@ -18,9 +18,9 @@ module.exports = (models) => {
   const suggestionService = new SuggestionService(models.Suggestion);
   const voteService = new VoteService(models.Suggestion);
 
-  // Register services in the container
-  container.register('suggestionService', suggestionService);
-  container.register('voteService', voteService);
+  // Register services in the serviceRegistry
+  serviceRegistry.register('suggestionService', suggestionService);
+  serviceRegistry.register('voteService', voteService);
 
   app.use(helmet());
   app.use(rateLimit({
@@ -50,8 +50,8 @@ module.exports = (models) => {
   app.use('/uploads', express.static(path.join(__dirname, '../uploads'), { maxAge: '1d' }));
 
   // Pass models to routes
-  app.use('/suggestions', suggestionRoutes(container));
-  app.use('/vote', voteRoutes(container));
+  app.use('/suggestions', suggestionRoutes(serviceRegistry));
+  app.use('/vote', voteRoutes(serviceRegistry));
 
   app.use(errorHandler);
 
