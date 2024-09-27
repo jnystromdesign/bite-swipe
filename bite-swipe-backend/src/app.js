@@ -22,7 +22,7 @@ module.exports = (models) => {
   serviceRegistry.register('suggestionService', suggestionService);
   serviceRegistry.register('voteService', voteService);
 
-  app.use(helmet());
+  app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" }));
   app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100
@@ -38,11 +38,6 @@ module.exports = (models) => {
       return callback(null, true);
     }
   }));
-  // Allow images
-  app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
-    next();
-  });
 
   app.use(express.json());
 
