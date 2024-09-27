@@ -6,13 +6,13 @@ services:
       context: ./bite-swipe-frontend
       dockerfile: Dockerfile
     ports:
-      - "4200:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     volumes:
       - ./bite-swipe-frontend:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - API_URL=${API_URL}
+      - API_URL=${FRONTEND_URL}
     depends_on:
       - backend
 
@@ -21,7 +21,7 @@ services:
       context: ./bite-swipe-backend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${BACKEND_PORT}:3000"
     volumes:
       - ./bite-swipe-backend:/usr/src/app
       - /usr/src/app/node_modules
@@ -29,8 +29,8 @@ services:
       - NODE_ENV=development
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
       - MONGODB_URI=${MONGODB_URI}
-      - PORT=${PORT}
-      - API_URL=${API_URL}
+      - PORT=3000
+      - API_URL=${BACKEND_URL}
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - mongodb
@@ -38,7 +38,7 @@ services:
   mongodb:
     image: mongo:5.0
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT:-27017}:27017"
     volumes:
       - mongodb_data:/data/db
       - ./bite-swipe-backend/src/seed/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
